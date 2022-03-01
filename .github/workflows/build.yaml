@@ -1,0 +1,28 @@
+name: RomRaider build
+
+on: [push,pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '8'
+
+      - name: Test Compiler
+        run: javac -version
+
+      - name: Set JRE_DIR
+        run: |
+          echo "JRE_DIR=$(echo $JAVA_HOME)/jre" >> $GITHUB_ENV
+
+      - name: All
+        run: |
+          echo JRE_DIR=$JRE_DIR
+          ant all
